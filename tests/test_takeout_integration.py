@@ -1,6 +1,7 @@
 from lib.takeout_order import TakeoutOrder
 from lib.dish import Dish
 from lib.menu import Menu
+from lib.receipt import Receipt
 import pytest
 
 # test that before a user can even order, dishes can be added to the menu and it is displayed properly
@@ -53,18 +54,35 @@ def test_user_can_read_menu():
 """
 
 # test that user can see itemised receipt with grand total
-@pytest.mark.skip(reason='not yet implemented')
 def test_see_receipt():
     menu = Menu()
     takeout_order = TakeoutOrder()
+    receipt = Receipt()
     dish1 = Dish('Boshu Kakuni Ramen', '5.60')
     dish2 = Dish('Matcha Cheesecake', '4.50')
     menu.add_dish_to_menu(dish1)
     menu.add_dish_to_menu(dish2)
     takeout_order.add_dish(dish1, 1)
     takeout_order.add_dish(dish2, 1)
-    assert takeout_order.see_receipt() == """
-1 Boshu Kakuni Ramen (£5.60)...£5.60
+    assert takeout_order.see_receipt(receipt) == """
+1 Boshu Kakuni Ramen: (£5.60)...£5.60
 1 Matcha Cheesecake: (£4.50)...£4.50
-TOTAL: £10.10
-"""
+TOTAL: £10.10"""
+
+# test that user can see itemised receipt with grand total when ordering multiple of a dish
+def test_see_receipt_with_more_items():
+    menu = Menu()
+    takeout_order = TakeoutOrder()
+    receipt = Receipt()
+    dish1 = Dish('Boshu Kakuni Ramen', '5.60')
+    dish2 = Dish('Matcha Cheesecake', '4.50')
+    dish3 = Dish('Guacamole', '0.99')
+    takeout_order.add_dish(dish1, 1)
+    takeout_order.add_dish(dish2, 1)
+    takeout_order.add_dish(dish3, 2)
+    takeout_order.add_dish(dish2, 1)
+    assert takeout_order.see_receipt(receipt) == """
+1 Boshu Kakuni Ramen: (£5.60)...£5.60
+2 Guacamole: (£0.99)...£1.98
+2 Matcha Cheesecake: (£4.50)...£9.00
+TOTAL: £16.58"""

@@ -11,10 +11,4 @@ class TakeoutOrder:
         return menu.format_menu()
     
     def see_receipt(self, receipt):
-        # returns instance of Receipt class (formatted to show dishes and prices + grand total)
-        return receipt.format_receipt()
-
-        # formatted_menu = f"""\n"""
-        # for item in self.menu_list:
-        #     formatted_menu += f'- {item.name}: £{item.price}\n'
-        # return formatted_menu
+        return receipt.format_receipt(self)
