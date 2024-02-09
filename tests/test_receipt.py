@@ -26,7 +26,6 @@ def test_format_receipt():
     mock_dish2.price = '3.50'
     mock_takeout_order.order_list = [mock_dish1, mock_dish2]
     assert receipt.format_receipt(mock_takeout_order) == """
-1 Boshu Kakuni Ramen (£5.60)...£5.60
-1 Matcha Cheesecake: (£4.50)...£4.50
-TOTAL: £10.10
-"""
+1 Boyish Cake Ramen: (£2.50)...£2.50
+1 Matching Cheesecake: (£3.50)...£3.50
+TOTAL: £6.00"""

@@ -10,10 +10,9 @@ class Receipt():
 
 
     def format_receipt(self, order):
-        # parameters:
-        #     order: list of dishes from TakoutOrder class
-        # side effects:
-        #     run #calculate_grand_total here
-        # returns:
-        #     formatted receipt
-        pass
+        formatted_receipt = f"""\n"""
+        for item in sorted(set(order.order_list), key=lambda item: item.name):
+            counter = order.order_list.count(item)
+            formatted_receipt += f'{counter} {item.name}: (£{item.price})...{"£{:,.2f}".format(counter * float(item.price))}\n'
+        formatted_receipt += f'TOTAL: {"£{:,.2f}".format(Receipt.calculate_grand_total(self, order))}'
+        return formatted_receipt
